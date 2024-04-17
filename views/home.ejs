@@ -1,21 +1,26 @@
 <%- include('partials/__header.ejs') %>
+<%- include('modals/dialogs.ejs') %>
 
 <main>
-    <!-- <nav>
-     
-    </nav> -->
-    <holder>
-      <section active>
-        <h1 class="headline-large">Sesión iniciada</h1>
+  <!-- <nav>
+    
+  </nav> -->
+  <holder>
+    <section active class="justify-center">
+      <h1 class="headline-large">Inicio</h1>
 
-        <div class="content-box">
-            <h1 class="headline-small">Usuario</h1>
-            <p class="headline-medium"><%= name %></p>
-            <p class="headline-medium"><%= user %></p>
-        </div>
-      </section>
-    </holder>
-  </main>
+      <div class="content-box">
+          <h1 class="headline-small">Sesión iniciada:</h1>
+          <p class="headline-medium"><%= user %> - <%= name %></p>
+      </div>
+
+      <div class="simple-container justify-right">
+        <md-outlined-button onclick="toggleDialog('dialog-logout-confirmation')">Cerrar sesión</md-outlined-button>
+      </div>
+      
+    </section>
+  </holder>
+</main>
 
 
     

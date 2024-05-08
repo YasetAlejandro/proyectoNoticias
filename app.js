@@ -32,7 +32,10 @@ app.use(session({
 const connection= require("./database/db");
 
 // LOS REQUIRES DE LOS MODELOS
-app.use(require("./Modelos/loginQuerys"))
+app.use(require("./Modelos/loginQuerys"));
+app.use(require("./controllers/imageRoutes"))
+app.use(require("./Modelos/indexNewsModel"))
+app.use("/images", express.static("images"))
 
 
 // ESTABLECIENDO RUTAS

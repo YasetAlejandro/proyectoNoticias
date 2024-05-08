@@ -9,7 +9,22 @@
 </head>
 <body>
     <h1>Pagina De Inicio</h1>
-        <h1><strong><%= name %></strong></h1>
+        <h1><strong>Debe iniciar secion</strong></h1>
         <a href="login" class="a-login">INICIAR SESION</a>
+        
+
+        <h1>Noticias</h1>
+        <ul>
+            <% noticias.forEach(noticia => { %>
+                <li>
+                    <h2><%= noticia.Titulo %></h2>
+                    <p><%= noticia.Content %></p>
+                    <img src="/images/<%= noticia.imagen %>">
+                    <p>Fecha: <%= noticia.Fecha %></p>
+                    <p>Matrícula: <%= noticia.Matricula %></p>
+                    <p>Autor: <%= noticia.Autor %></p>
+                </li>
+            <% }) %>
+        </ul>
 </body>
 </html>

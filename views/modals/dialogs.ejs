@@ -1,0 +1,13 @@
+<md-dialog id="dialog-logout-confirmation">
+  <div slot="headline">Cerrar sesión</div>
+  <md-icon slot="icon" aria-hidden="true">logout</md-icon>
+  <form id="form-dialog-logout-confirmation" slot="content" method="dialog">
+    ¿Estas seguro de que quieres cerrar sesión?
+  </form>
+  <div slot="actions">
+    <md-text-button form="form-dialog-logout-confirmation" value="cancel">Cancelar</md-text-button>
+    <form action="logout" method="post">
+      <md-filled-tonal-button  value="save">Cerrar sesión</md-filled-tonal-button>
+    </form>
+  </div>
+</md-dialog>

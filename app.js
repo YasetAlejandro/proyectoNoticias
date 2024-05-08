@@ -5,6 +5,7 @@ const app= express();
 // CAPTURA DE DATOS DEL FORMULARIO POR URLENCONDES
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+app.use(express.static('public'))
 
 // INVOCAMOS A DOTENV
 const dotenv= require("dotenv");

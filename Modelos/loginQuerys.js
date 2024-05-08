@@ -85,12 +85,6 @@ routes.post("/auth", async(req, res)=>{
 
 })
 
-routes.get("/",(req,res)=>{
-        // ESTE INDEX SE DEJA IGUAL YA QUE MANDARA A LA PAGINA INICIAL EN CASO DE QUE NO HAYA SECION
-        res.render("index",{
-            name: "Debe Iniciar Sesion"
-        })
-})
 
 routes.get("/home", (req,res)=>{
     const user= req.body.user

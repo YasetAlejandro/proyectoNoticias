@@ -1,16 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>HAS INICIADO SESION</h1>
-    <h1>El Usuario Conectado Es: <strong><%= name %></strong></h1>
-    <h1>TU MATRICULA ES: <strong><%= user %> FAVOR DE NO OLVIDARLA</strong></h1>
-    <form action="logout" method="post">
-        <input type="submit" value="CERRAR SESION" class="button-logout">
-    </form>
-</body>
-</html>
+<%- include('partials/__header.ejs') %>
+<%- include('modals/dialogs.ejs') %>
+
+<main>
+  <!-- <nav>
+    
+  </nav> -->
+  <holder>
+    <section active class="justify-center">
+      <h1 class="headline-large">Inicio</h1>
+
+      <div class="content-box">
+          <h1 class="headline-small">Sesión iniciada:</h1>
+          <p class="headline-medium"><%= user %> - <%= name %></p>
+      </div>
+
+      <div class="simple-container justify-right">
+        <md-outlined-button onclick="toggleDialog('dialog-logout-confirmation')">Cerrar sesión</md-outlined-button>
+      </div>
+
+
+      <card-item
+ 
+      >
+      </card-item>
+      
+    </section>
+  </holder>
+</main>
+
+
+    
+<%- include('partials/__footer.ejs') %>

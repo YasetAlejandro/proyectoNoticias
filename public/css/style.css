@@ -1,0 +1,39 @@
+@import url(nav.css?v=4.0.0); /* Brings the Nav Bar styles */ 
+@import url(ui-structure.css?v=6.0.0); /* Brings the main styles for the structure, important */ 
+@import url(ui-elements/content-box.css?v=5); /* Its a basic container with many uses */ 
+@import url(ui-elements/default-rules.css?v=4); /* Brings classes with propetys that all elements could use */ 
+@import url(ui-elements/message.css?v=4); /* Brings the styles for the message box */
+@import url(ui-elements/windows.css?v=4); /* Brings the styles for the message box */
+@import url(ui-elements/tables.css?v=4); /* Brings the styles for the tables */
+
+
+:root {
+  /* color-scheme: light dark; */
+}
+a,button{
+  will-change: transform; 
+  -webkit-user-drag: none; 
+  user-select: none;
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  margin:0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--md-sys-color-background);
+  font-family: 'Roboto', sans-serif;
+  -webkit-tap-highlight-color: transparent
+}
+h1,h2,h3,h4,h5,h6,p{margin:0; color:var(--md-sys-color-on-background)}
+
+md-icon {--md-icon-font: 'Material Symbols Rounded'; }
+.material-symbols-rounded{user-select: none;}
+
+.dm-sans{font-family: 'DM Sans', sans-serif !important;}
+.weight-600{font-weight: 600 !important;}
+.weight-500{font-weight: 500 !important;}
+input::-webkit-date-and-time-value{ text-align:left; }

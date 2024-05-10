@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -49,4 +49,101 @@
         </script>
         <% } %>
 </body>
-</html>
+</html> -->
+
+<%- include('partials/__header.ejs') %>
+
+<main>
+    <holder>
+        <section active style="padding:16px; position:relative; padding-bottom:100px">
+            <div class="content-box light-color direction-row justify-between padding-8">
+                <div class="content-divisor gap-8">
+                    <md-text-button href="/"><md-icon slot="icon">home</md-icon>Inicio</md-text-button>
+                </div>
+                <div class="content-divisor justify-right gap-8">
+                    <md-filled-tonal-button><md-icon slot="icon">person_add</md-icon>Registrarse</md-filled-tonal-button>
+                    <md-text-button href="login"><md-icon slot="icon">login</md-icon>Iniciar sesión</md-text-button>
+                </div>
+            </div>
+            <div class="simple-container">
+                <div class="content-box light rounded overflow-hidden">
+                    <div class="simple-container direction-column">
+                        <h1 class="display-large bricolage primary-text">Registrarse</h1>
+                        <p class="headline-small">Crea una cuenta para acceder a la plataforma</p>
+                    </div>
+                    <md-icon class="absolute-card">person_add</md-icon>
+                </div>
+            </div>
+
+            <div class="content-box direction-row flex-wrap gap-16">
+                <div class="simple-container grow-1 basis-normal direction-column gap-8 v-margin">
+                    <md-icon class="pretty normal secondary-text">news</md-icon>
+                    <div class="simple-container direction-column">
+                        <span class="display-small bricolage weight-500">Registrate</span>
+                        <span class="body-large">Ingresa tus datos o <span class="data-line square interactive" onclick="window.location ='/login'"><md-ripple></md-ripple>inicia sesión</span></span>
+                    </div>
+                   
+                </div>
+                <div class="simple-container grow-1 basis-normal direction-column v-margin">
+                    <form action="register" method="POST" class="direction-column gap-16">
+                
+                        <md-outlined-text-field 
+                            label="Nombre completo"
+                            name="name"
+                            id="name"
+                            required
+                        ></md-outlined-text-field>
+                        <md-outlined-select 
+                            label="Selecciona el rol"
+                            name="rol"
+                            id="rol"
+                            required
+                            >
+                            <md-select-option selected value="admin">
+                              <div slot="headline">Administrador</div>
+                            </md-select-option>
+                            <md-select-option value="data entry">
+                              <div slot="headline">Estudiante </div>
+                            </md-select-option>
+                        </md-outlined-select>
+                          
+                        <md-outlined-text-field 
+                            label="Correo electrónico"
+                            name="email"
+                            id="email"
+                            type="email"
+                            required
+                        ></md-outlined-text-field>
+                        <md-outlined-text-field 
+                            label="Contraseña"
+                            name="pass"
+                            id="pass"
+                            required
+                            type="password"
+                        ></md-outlined-text-field>
+                        <div class="simple-container justify-right">
+                            <md-filled-button type="submit" value="register" >Registrarse</md-filled-button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- contenido -->
+            <% if(typeof alert!= "undefined"){%>
+                <md-dialog id="dialog-wrong-user-password" open>
+                    <div slot="headline">Datos incorrectos</div>
+                    <md-icon slot="icon" aria-hidden="true">error</md-icon>
+                    <form id="form-dialog-wrong-user-password" slot="content" method="dialog">
+                        <p>La matricula o la contraseña son incorrectas, por favor intenta de nuevo.</p>
+                    </form>
+                    <div slot="actions">
+                      <md-text-button form="form-dialog-wrong-user-password" value="continue">Volver a intentar</md-text-button>
+                    </div>
+                </md-dialog>        
+            <% } %>
+
+        </section>
+    </holder>
+</main>
+
+<%- include('partials/__footer.ejs') %>

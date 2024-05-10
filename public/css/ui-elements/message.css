@@ -1,6 +1,8 @@
 message{
+  margin: 0 16px;
   display:none;
   position:fixed;
+  margin-top: env(safe-area-inset-top);
   top:24px;
 
   animation: messageIn 0.7s, messageOut 0.7s 3s;
@@ -12,6 +14,7 @@ message{
 
   background: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
+  z-index: 20;
 }
 message.unactive{display:none; animation: messageOut 0.7s}
 /* @keyframes messageIn {from{top:-12px;}to{top: 12px;}}
@@ -23,5 +26,14 @@ message.unactive{display:none; animation: messageOut 0.7s}
 message.error{
   background:var(--md-sys-color-error-container);
   color:var(--md-sys-color-on-error-container);
+  animation: messageIn 0.7s, messageOut 0.7s 3s, errorAnimation 250ms;
+}
+
+@keyframes errorAnimation {
+  0% {transform: translateX(-2px);}
+  25% {transform: translateX(2px);}
+  50% {transform: translateX(-2px);}
+  75% {transform: translateX(2px);}
+  100% {transform: translateX(0);}
 }
 

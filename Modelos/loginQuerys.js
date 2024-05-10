@@ -26,15 +26,16 @@ routes.post("/register", async (req, res) => {
                     req.session.name = name;
                     req.session.user = userId;
                     console.log(rows)
-                    res.render("register", {
-                        alert: true,
-                        alertTitle: "Registro",
-                        alertMessage: "REGISTRO EXITOSO",
-                        alertIcon: "success",
-                        showConfirmButton: true,
-                        time: 1500,
-                        ruta: "home"
-                    });
+                    res.redirect("/home");
+                    // res.render("register", {
+                    //     alert: true,
+                    //     alertTitle: "Registro",
+                    //     alertMessage: "REGISTRO EXITOSO",
+                    //     alertIcon: "success",
+                    //     showConfirmButton: true,
+                    //     time: 1500,
+                    //     ruta: "home"
+                    // });
                 }
             });
         }
@@ -53,9 +54,9 @@ routes.post("/auth", async(req, res)=>{
             // DATO SUPER IMPORTANTE EN EL .PWD ES EL NOMBRE DE LA COLUMNA EN LA BD
             if(results.length==0 || !(await bcryptjs.compare(pass, results[0].pwd))){
                 res.render("login",{
-                  alert: true,
+                  alert: "wrong_pass",
                   alertTitle: "Error",
-                  alertMessage: "ID Y/O CONTRASEÑA INCORRECTOS",
+                  alertMessage: "Usuario o contrase;a incorrecta",
                   alertIcon: "error",
                   showConfirmButton: true,
                   time: false,
@@ -67,15 +68,16 @@ routes.post("/auth", async(req, res)=>{
                 req.session.name= results[0].name
                 req.session.user = results[0].id;
                 console.log(results)
-                res.render("login",{
-                  alert: true,
-                  alertTitle: "INICIANDO SESION",
-                  alertMessage: "CREDENCIALES CORRECTAS",
-                  alertIcon: "success",
-                  showConfirmButton: true,
-                  time:1500,
-                ruta: "home"
-                });
+                res.redirect("/home"); // Redirigir a la ruta "/home"
+                // res.render("login",{
+                //   alert: true,
+                //   alertTitle: "INICIANDO SESION",
+                //   alertMessage: "CREDENCIALES CORRECTAS",
+                //   alertIcon: "success",
+                //   showConfirmButton: true,
+                //   time:1500,
+                // ruta: "home"
+                // });
             }
         })
     }else{

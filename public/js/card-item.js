@@ -4,7 +4,7 @@ cardItemTemplate.innerHTML = `
     :host{
         display:flex;
         flex-grow:1;
-        flex-basis:600px;
+        flex-basis:400px;
 
         height:auto;
         user-select:none;
@@ -15,20 +15,20 @@ cardItemTemplate.innerHTML = `
         flex-grow:1;
         flex-wrap:wrap;
 
-        background:var(--md-sys-color-surface-container-highest);
+        background:var(--md-sys-color-surface-container);
         border-radius:28px;
         
         inset:0;
         overflow:auto;
         transition:background 125ms;
     }
+    .card.open{background:var(--md-sys-color-background);}
     .card:not(.open){cursor:pointer;overflow:hidden;}
     .card:not(.open):hover{
         background:var(--md-sys-color-background);
-        box-shadow: 0px 0px 0px 1px rgba(var(--normalInverted), 0.08); 
+        box-shadow: 0px 0px 0px 1px var(--md-sys-color-outline-variant); 
         /* box-shadow: 0px 10px 32px -16px rgba(0, 0, 0, 0.16);*/
     }
-    .card:not(.open):hover img{filter: brightness(1.03);}
 
     .content_divisor{
         position:relative;
@@ -56,14 +56,20 @@ cardItemTemplate.innerHTML = `
         height:100%;
         border-radius:28px;
         object-fit: cover;
-        aspect-ratio: 16/10;
+        aspect-ratio: 16/9;
         transition:filter 125ms, transform .3s cubic-bezier(0,0,0.5,1);
+    }
+    @media only screen and (max-width: 680px){
+        img{
+            aspect-ratio: 16/11;
+        }
     }
 
     card-title{
         font-size:24px;
-        font-weight:600;
-        color:rgba(var(--normalInverted), 8);
+        font-weight:400;
+        font-family: "Bricolage Grotesque", sans-serif;
+        color:var(--md-sys-color-on-surface);
     }
     event-date{
         font-size:16px;
@@ -100,7 +106,6 @@ cardItemTemplate.innerHTML = `
     .simple_container{
         display:flex;
         flex-direction:column;
-        margin-bottom:8px;
         gap:0px;
     }
     .add-gap{ gap:4px; }
@@ -108,7 +113,6 @@ cardItemTemplate.innerHTML = `
 
     .card.open{
         position:absolute;
-        background:var(--normal);
     }
 
     event-description{
@@ -119,19 +123,19 @@ cardItemTemplate.innerHTML = `
     
 
     .transparent-cards{
-        animation: transparentIn 300ms;
+        animation: transparentIn 700ms;
     }
     @keyframes transparentIn {
         from{
-            background:rgba(var(--normalInverted), 0);
+            background:rgba(0,0,0, 0);
         }
         to{
-            background:rgba(var(--normalInverted), 0.1);
+            background:rgba(0,0,0, .2);
         }
     }
 
     @media only screen and (min-width: 680px){
-      .card{inset:10% 5%;}
+      .card{inset:10% calc(50% - 300px);}
     }
     @media only screen and (max-width: 680px){
         .card.open img{
@@ -171,7 +175,7 @@ cardItemTemplate.innerHTML = `
         z-index:2;
         
     }
-    close-button svg{fill:var(--normal); filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.24));transition:transform .3s cubic-bezier(0,0,0.5,1)}
+    close-button svg{fill:var(--md-sys-color-background); filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.24));transition:transform .3s cubic-bezier(0,0,0.5,1)}
     close-button:hover svg{transform: scale(1.1);}
     @media only screen and (min-width: 680px){close-button{right:unset; left:16px;}}
 
@@ -206,9 +210,68 @@ cardItemTemplate.innerHTML = `
     button.icon:hover{background:var(--primary);}
     button.icon:hover svg{fill:var(--normal);}    
     button.icon svg{fill:rgba(var(--normalInverted), .8); transition:fill 125ms;}
+
+
+    /* Estilos de contenedor de creditos y fecha */
+    .content-box{
+        display:flex;
+        flex-wrap: wrap;
+        flex-grow:1;
+        background:var(--md-sys-color-surface-container-low);
+        border-radius:16px;
+        margin:8px 0;
+        margin-bottom:4px;
+        box-shadow: 0px 0px 0px 1px var(--md-sys-color-surface-container-high) inset;
+    }
+    .content-box .divisor h1{
+        font-size:16px;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight:400;
+        margin:0;
+        color:var(--md-sys-color-on-surface);
+
+    }
+    .content-box .divisor{
+        display:flex;
+        
+        flex-direction:column;
+        flex-grow:1;
+        padding:12px;
+        gap:4px;
+    }
+    .content-box .divisor:first-child{max-width:fit-content}
+    dataline{
+        min-width:fit-content;
+        width:fit-content;
+        font-size:14px;
+        font-weight:500;
+        padding:4px 8px;
+        border-radius:16px;
+        background:var(--surfaceMedium);
+        color:rgba(var(--normalInverted), 0.95);
+    }
+    .color-primary{
+        background:var(--md-sys-color-primary) !important;
+        color:var(--md-sys-color-on-primary) !important;
+
+    }
+    dataline{
+        min-width:fit-content;
+        width:fit-content;
+        font-size:17px;
+        font-weight:400;
+        padding:4px 8px;
+        border-radius:16px;
+        background:var(--md-sys-color-surface-container-high);
+        color:rgba(var(--normalInverted), 0.95);
+        overflow:hidden;
+        
+    }
+    
+
 </style>
 
-<div class="transparent-cards" style="display:none; z-index:10; width:100%; height:100vh; inset:0; position:fixed; background:rgba(var(--normalInverted), 0.1)">
+<div class="transparent-cards" style="display:none; z-index:10; width:100%; height:100vh; inset:0; position:fixed; background:rgba(0,0,0, .2);">
 
 </div>
 
@@ -223,16 +286,23 @@ cardItemTemplate.innerHTML = `
     <div class="content_divisor">
         <div class="simple_container add-gap">
             <card-title>Piñaditos</card-title>
-            ⭐⭐⭐⭐ 4.0
-            <card-shortdescription>
-                Ricos pero tienen un problema
-            </card-shortdescription>
+            <div class="content-box">
+                <div class="divisor">
+                    <h1>Fecha</h1>
+                    <div class="simple_container direction-row add-gap">
+                        <dataline id="data-date">00/00/0000</dataline>
+                    </div>
+                </div>
+            </div>
             
             
         </div>
 
         <span class="hidden-content">
             <hidden-content>
+                <div class="simple_container flex-row add-gap">
+                    <dataline class="color-primary">Autor: <span id="data-author">...</span></dataline>
+                </div>
                 <card-description>
                     Me gustan mucho los sandwiches que compro en este lugar el problema es que no son demasiado baratos, lo cual es entendible
                     el problema es que podría ser mejor la experiencía a lo largo del tiempo. Entendemos que no pueden ser gratis pero si uno
@@ -244,12 +314,7 @@ cardItemTemplate.innerHTML = `
                     conveniente, pero este no es el caso.
                 </card-description>
 
-                <div class="simple_container flex-row add-gap">
-                    <button class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Zm0-406v406-406Zm-80-34v80H160v360h120v80H80v-520h200Z"/></svg></button>
-                    <button class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
-                    </button>
-                </div>
+                
 
                 
 
@@ -353,6 +418,25 @@ class cardItem extends HTMLElement {
             zIndex: 1,
         });
     }
+    function formatDate(date){
+        // Array con los nombres de los meses
+        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        // Create a Date object with the provided date
+        var date = new Date('Thu May 09 2024 19:23:36 GMT-0700');
+
+        // Get the date components
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var monthName = meses[monthIndex];
+        var year = date.getFullYear();
+
+        // Format the date as dd/mm/yyyy
+        var formattedDate = day + ' ' + monthName + ', ' + year;
+
+
+        return formattedDate;
+    }
 
     this.shadowRoot.querySelector('.card').addEventListener('click', () => { toggleCard(cardElement) }, {once: true});
 
@@ -368,6 +452,12 @@ class cardItem extends HTMLElement {
     }    
     if(this.hasAttribute('data-description')) {
         this.shadowRoot.querySelector('card-description').textContent = this.getAttribute('data-description');
+    }
+    if(this.hasAttribute('data-date')) {
+        this.shadowRoot.getElementById("data-date").textContent = formatDate(this.getAttribute('data-date'));
+    }
+    if(this.hasAttribute('data-author')) {
+        this.shadowRoot.getElementById("data-author").textContent = (this.getAttribute('data-author'));
     }
 
   }

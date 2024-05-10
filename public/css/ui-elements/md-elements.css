@@ -1,0 +1,16 @@
+.md-tab{
+  display:none
+}
+.md-tab[active]{
+  display:flex;
+}
+
+md-dialog#dialog-lector form{display:none;}
+md-dialog#dialog-lector form[active]{display:flex;}
+#qr-code-reader-container video{border-radius:16px}
+/* md-dialog#dialog-lector.dialog-active {
+}
+
+md-dialog#dialog-lector {
+  transition: opacity 0.3s ease-in-out !important;
+} */

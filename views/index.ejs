@@ -3,29 +3,59 @@
 
 <main>
     <holder>
-        <section active style="padding:5% 0">
-            <div class="content-box light">
-                <h1 class="display-large">Inicio</h1>
+        <section active style="padding:16px; position:relative; padding-bottom:100px">
+            <div class="content-box light-color direction-row justify-between padding-8">
+                <div class="content-divisor gap-8">
+                    <md-filled-button><md-icon slot="icon">home</md-icon>Inicio</md-filled-button>
+                </div>
+                <div class="content-divisor justify-right gap-8">
+                    <md-text-button href="/register"><md-icon slot="icon">person_add</md-icon>Registrarse</md-text-button>
+                    <md-text-button href="/login"><md-icon slot="icon">login</md-icon>Iniciar sesión</md-text-button>
+                </div>
             </div>
-            <div class="simple-container direction-row gap-8 grow-1" id="login-cotainer">
+            <div class="simple-container">
+                <div class="content-box light rounded overflow-hidden">
+                    <div class="simple-container direction-column">
+                        <h1 class="display-large bricolage primary-text">Noticias</h1>
+                        <p class="headline-small">Las noticias más recientes de la comunidad</p>
+                    </div>
+                    <md-icon class="absolute-card">news</md-icon>
+                </div>
+            </div>
+           
+            <!-- <div class="simple-container flex-wrap direction-row gap-8 grow-1" id="login-cotainer">
                 <div class="content-box justify-center align-center gap-16">
                     
                     <md-icon style="--md-icon-size: 132px; padding:32px; background:var(--md-sys-color-surface-container-highest); border-radius:200px">login</md-icon>
-                    <!-- <h1 class="display-small">Iniciar sesión</h1> -->
                     <md-filled-button href="/login">
                         iniciar sesión
                     </md-filled-button>
 
-                    <!-- <h1 class="display-small">Iniciar sesión</h1> -->
                 </div>
                 <div class="content-box justify-center align-center gap-16">
                     <md-icon style="--md-icon-size: 132px; padding:32px; background:var(--md-sys-color-surface-container-highest); border-radius:200px">person_add</md-icon>
-                    <!-- <h1 class="display-small">Registrarse</h1> -->
                     <md-filled-tonal-button href="/register">
                         Registrarse
                     </md-filled-tonal-button>
                 </div>
+            </div> -->
+            <div class="simple-container direction-row flex-wrap gap-8">
+                <% noticias.forEach(noticia => { %>
+                    <card-item
+                        data-img="/images/<%= noticia.imagen %>"
+                        data-title="<%= noticia.Titulo %>"
+                        data-description="<%= noticia.Content %>"
+                        data-date="<%= noticia.Fecha %>"
+                        data-author="<%= noticia.Autor %>"
+                    ></card-item>
+                <% }) %>
             </div>
+            
+            <!-- <div class="content-box">
+                <h1 class="headline-medium">Noticias</h1>
+                
+                    
+            </div> -->
             
         </section>
     </holder>

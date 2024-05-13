@@ -88,14 +88,24 @@ routes.post("/auth", async(req, res)=>{
 })
 
 
-routes.get("/home", (req,res)=>{
-    const user= req.body.user
-    res.render("home",{
+const requireLogin = (req, res, next) => {
+    if (req.session.loggedin) {
+        // Si el usuario está autenticado, permitir el acceso a la siguiente ruta
+        next();
+    } else {
+        // Si el usuario no está autenticado, redirigir a la página de inicio de sesión
+        res.redirect("/login");
+    }
+};
+
+
+
+routes.get("/home", requireLogin, (req,res)=>{
+    res.render("home", {
         name: req.session.name,
-        user: req.session.user,
-        
-    })
-})
+        user: req.session.user
+    });
+});
 
 
 

@@ -14,24 +14,21 @@ const upload= multer({storage: storage})
 
 exports.upload = upload.single("image")
 
-exports.uploadFile= (req, res)=>{
-    const title= req.body.title
-    const content= req.body.content
-    const image_url= req.file.filename
-    const created_at= new Date()
-    const user_id= req.body.user_id
-    
-    connection.query("CALL SP_INSERTIMAGE (?, ?, ?, ?, ?)", [title, content, image_url, created_at, user_id], (err, rows)=>{
-        console.log(
-            err
-              ? "Err:"  + err
-              : ": Image added!"
-          );
-          res.json(
-            err
-              ? { err: "Error al cargar la imagen" }
-              : { msg: "Imagen cargada correctamente" }
-          );
-    })
+exports.uploadFile = (req, res) => {
+    const title = req.body.title;
+    const content = req.body.content;
+    const image_url = req.file.filename;
+    const created_at = new Date();
+    const user_id = req.session.user;
 
-}
+    connection.query("CALL SP_INSERTIMAGE (?, ?, ?, ?, ?)", [title, content, image_url, created_at, user_id], (err, rows) => {
+        if (err) {
+            console.error("Error al insertar la imagen:", err);
+            res.json({ err: "Error al cargar la imagen" });
+        } else {
+            console.log("Imagen agregada correctamente.");
+            // Redirecciona al usuario a la ruta '/home'
+            res.redirect("/home");
+        }
+    });
+};

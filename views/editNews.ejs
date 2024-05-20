@@ -66,7 +66,8 @@
                     Crea una noticia
                 </h1>
                 <div class="simple-container grow-1 basis-normal direction-column v-margin">
-                    <form action="/images" method="POST" enctype="multipart/form-data" class="direction-column gap-16">
+                    <form action="/actualiza" method="POST" class="direction-column gap-16">
+                        <input type="text" name="id" id="id" value="<%=noticia.id%>" style="display:none">
                 
                         <md-outlined-text-field 
                             label="Título"

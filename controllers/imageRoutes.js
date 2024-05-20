@@ -42,6 +42,7 @@ routes.post("/actualiza", (req,res)=>{
     const id= req.body.id
     const title = req.body.title
     const content= req.body.content
+    console.log(id, title, content);
     connection.query("UPDATE news SET title=?, content=? WHERE id=?", [title, content, id], (err, results)=>{
         if(err) throw err
         res.redirect("/newsHistorial")

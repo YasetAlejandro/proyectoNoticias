@@ -433,24 +433,17 @@ class cardItem extends HTMLElement {
             zIndex: 1,
         });
     }
-    function formatDate(date){
-        // Array con los nombres de los meses
-        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-
-        // Create a Date object with the provided date
-        var date = new Date('Thu May 09 2024 19:23:36 GMT-0700');
-
-        // Get the date components
-        var day = date.getDate();
-        var monthIndex = date.getMonth();
-        var monthName = meses[monthIndex];
-        var year = date.getFullYear();
-
-        // Format the date as dd/mm/yyyy
-        var formattedDate = day + ' ' + monthName + ', ' + year;
-
-
-        return formattedDate;
+    function formatDate(fechaStr) {
+        // Crear un objeto Date a partir de la cadena de fecha proporcionada
+        const fecha = new Date(fechaStr);
+        
+        // Obtener los componentes de la fecha
+        const dia = fecha.getDate();
+        const mes = fecha.toLocaleString('es-ES', { month: 'long' });
+        const año = fecha.getFullYear();
+        
+        // Formatear la fecha en el formato deseado
+        return `${dia} ${mes.charAt(0).toUpperCase() + mes.slice(1)}, ${año}`;
     }
 
     this.shadowRoot.querySelector('.card').addEventListener('click', () => { toggleCard(cardElement) }, {once: true});

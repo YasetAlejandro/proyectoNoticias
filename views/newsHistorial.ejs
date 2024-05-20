@@ -1,37 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial De Noticias</title>
-</head>
-<body>
-    <h1>Historial De Noticias</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Created At</th>
-                <th>User ID</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% news.forEach(function(singleNews) { %>
-                <tr>
-                    <td><%= singleNews.id %></td>
-                    <td><%= singleNews.title %></td>
-                    <td><%= singleNews.content %></td>
-                    <td><%= singleNews.created_at %></td>
-                    <td><%= singleNews.user_id %></td>
-                    <td>
-                        <a href="/edit/<%= singleNews.id %>" class="btn btn-primary">EDITAR&nbsp; </a>
-                        <a href="/delete/<%= singleNews.id %>" class="btn btn-danger">ELIMINAR</a>
-                      </td>
-            <% }) %>
-        </tbody>
-    </table>
-</body>
-</html>
+<%- include('partials/__header.ejs') %>
+
+<main>
+    <holder>
+        <section active>
+            <div class="content-box light-color direction-row justify-between padding-8">
+                <div class="content-divisor">
+                    <md-outlined-button href="home"><md-icon slot="icon">arrow_back</md-icon>regresar</md-outlined-button>
+                </div>
+                <div class="content-divisor">
+                    <md-filled-tonal-button href="uploadnews"><md-icon slot="icon">add</md-icon>Crear noticia</md-filled-tonal-button>
+                </div>
+                        
+            </div>
+            <div class="simple-container">
+                <div class="content-box light rounded overflow-hidden">
+                    <div class="simple-container direction-column">
+                        <h1 class="display-large bricolage primary-text">Mis noticias</h1>
+                        <p class="headline-small">Aquí puedes ver todas las noticias que has creado</p>
+                    </div>
+                    <md-icon class="absolute-card">news</md-icon>
+                </div>
+            </div>
+            <div class="content-box light-color direction-column">
+                <table>
+                    <tr>
+                        <td>ID</td>
+                        <td>Título</td>
+                        <td>Contenido</td>
+                        <td>Fecha de creación</td>
+                        <td>Acciones</td>
+                    </tr>
+                    <% news.forEach(function(singleNews) { %>
+                        <tr>
+                            <td><%= singleNews.id %></td>
+                            <td><%= singleNews.title %></td>
+                            <td><%= singleNews.content %></td>
+                            <td><%= singleNews.created_at %></td>
+                            <td>
+                                <md-icon-button href="/edit/<%= singleNews.id %>">
+                                    <md-icon>edit</md-icon>
+                                </md-icon-button>
+                                <md-icon-button href="/delete/<%= singleNews.id %>">
+                                    <md-icon>delete</md-icon>
+                                </md-icon-button>
+                            </td>
+                    <% }) %>
+                </table>
+            </div>
+        </section>
+    </holder>
+</main>
+
+
+<%- include('partials/__footer.ejs') %>

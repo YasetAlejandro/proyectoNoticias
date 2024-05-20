@@ -42,6 +42,9 @@ cardItemTemplate.innerHTML = `
     @media only screen and (min-width: 680px){
         .content_divisor{padding:8px;}
         img{border-radius:20px !important;}
+        .card.open.slim-card{
+            inset: 10% calc(50% - 380px);;
+        }
     }
     .content_divisor:last-child{
         padding:24px;
@@ -115,6 +118,10 @@ cardItemTemplate.innerHTML = `
         position:absolute;
     }
 
+    .card.open.slim-card #card-item-text-content{
+        overflow:unset;
+    }
+
     event-description{
         height:100%;
         text-wrap:balance;
@@ -135,7 +142,7 @@ cardItemTemplate.innerHTML = `
     }
 
     @media only screen and (min-width: 680px){
-      .card{inset:10% calc(50% - 300px);}
+        .card{inset:10% 5%;}
     }
     @media only screen and (max-width: 680px){
         .card.open img{
@@ -392,6 +399,14 @@ class cardItem extends HTMLElement {
 
         }else{
             // Open card
+            cardElement.classList.remove("slim-card");
+            
+            console.log(cardElement.offsetWidth)
+            var cardWidth = cardElement.offsetWidth;
+            if(cardWidth <= 799){
+                cardElement.classList.add("slim-card")
+            }
+
             transparentCards.style.display = "flex";
             cardElement.classList.add("open");
             transparentCards.appendChild(cardElement);

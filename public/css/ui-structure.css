@@ -21,9 +21,11 @@ holder{
   margin:6px;
   border-radius:18px;
   background:var(--md-sys-color-background);
-  align-items: center
-  
+  align-items: center;
+  overflow:auto; 
 }
+holder::-webkit-scrollbar{display: none;}
+
 
 section{
   display:none;
@@ -35,7 +37,8 @@ section{
   padding:24px; 
   box-sizing: border-box;
   gap:8px;
-  overflow: auto;
+  overflow: visible;
+  box-sizing: content-box;
 }
 section[active]{display:flex;}
 
@@ -69,13 +72,14 @@ section::-webkit-scrollbar{display: none;}
     border-radius:0;
   }
   holder{
-    overflow: hidden;
+    /* overflow: hidden; */
     margin:0;
     border-radius:0;
     /* padding-bottom:calc( env(safe-area-inset-bottom) + 68px) ; */
   }
   section{
     padding-top: calc(env(safe-area-inset-top) + 24px) ;
+    box-sizing: border-box;
   }
 
 

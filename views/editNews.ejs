@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -39,4 +39,101 @@
       </div>
     
 </body>
-</html>
+</html> -->
+
+
+
+<%- include('partials/__header.ejs') %>
+
+<main>
+    <holder>
+        <section active style="position:relative; padding-bottom:100px">
+            <div class="content-box light-color direction-row justify-between padding-8">
+                <md-outlined-button href="/newshistorial"><md-icon slot="icon">arrow_back</md-icon>regresar</md-outlined-button>          
+            </div>
+            <div class="simple-container">
+                <div class="content-box light rounded overflow-hidden">
+                    <div class="simple-container direction-column">
+                        <h1 class="display-large bricolage primary-text">Editar noticia</h1>
+                        <p class="headline-small">Cambia los datos de la noticia para editarla</p>
+                    </div>
+                    <md-icon class="absolute-card">edit_note</md-icon>
+                </div>
+            </div>
+
+            <div class="content-box flex-wrap gap-16">
+                <h1 class="headline-small">
+                    Crea una noticia
+                </h1>
+                <div class="simple-container grow-1 basis-normal direction-column v-margin">
+                    <form action="/images" method="POST" enctype="multipart/form-data" class="direction-column gap-16">
+                
+                        <md-outlined-text-field 
+                            label="Título"
+                            name="title"
+                            id="title"
+                            value="<%=noticia.title%>"
+                            required
+                        ></md-outlined-text-field>
+                        <md-outlined-text-field 
+                            label="Contenidod de la nonticia"
+                            name="content"
+                            id="content"
+                            type="textarea"
+                            rows="6"
+                            value="<%=noticia.content%>"
+                            required
+                        ></md-outlined-text-field>
+                        
+                        <div class="simple-container justify-right">
+                            <md-filled-button type="submit" value="Upload Image"><md-icon slot="icon">save</md-icon>Guardar cambios</md-filled-button>
+                        </div>
+                    </form>
+
+                    <div class="simple-container v-margin">
+                        <img src="" id="image-holder" alt="image" style="width:100%; border-radius:16px; display: none;">
+                    </div>
+                 
+                </div>
+            </div>
+           
+        </section>
+    </holder>
+</main>
+<style>
+    label{
+        display:flex;
+        flex-grow:1;
+        background:var(--md-sys-color-secondary-container);
+        color:var(--md-sys-color-on-sencondary-container);
+        justify-content: center;
+        padding:8px;
+        border-radius:24px;
+        cursor:pointer;
+        transition:background 125ms, color 125ms;
+    }
+    label:hover{
+        background:var(--md-sys-color-primary-container);
+        color:var(--md-sys-color-on-primary-container)
+    }
+    input[type="file"] {
+        display: none;
+    }
+</style>
+<script>
+    function showImage(){
+        const image = document.getElementById('image').files[0];
+        const imageHolder = document.getElementById('image-holder');
+        imageHolder.style.display = 'block';
+        const reader = new FileReader();
+        reader.onload = function(e){
+            imageHolder.src = e.target.result;
+        }
+        reader.readAsDataURL(image);
+        
+
+    }
+</script>
+
+<%- include('partials/__footer.ejs') %>
+

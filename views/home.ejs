@@ -6,22 +6,68 @@
     
   </nav> -->
   <holder>
-    <section active class="justify-center">
-      <h1 class="headline-large">Inicio</h1>
+    <section active>
+      <div class="content-box light-color direction-row justify-between padding-8">
+        <div class="content-divisor">
+          <md-text-button href="/"><md-icon slot="icon">home</md-icon>Ver todas las noticias</md-text-button>          
+        </div>
+        <div class="content-divisor gap-8">
+          <md-text-button href="newsHistorial"><md-icon slot="icon">newspaper</md-icon>Ver mis noticias</md-text-button>
+          <md-filled-tonal-button href="uploadnews"><md-icon slot="icon">add</md-icon>Crear noticia</md-filled-tonal-button>
+          
+        </div>
+      </div>
+      <div class="simple-container">
+        <div class="content-box light rounded overflow-hidden">
+            <div class="simple-container direction-column">
+                <h1 class="display-large bricolage primary-text">Inicio</h1>
+                <p class="headline-small">Bienvenido a la plataforma de noticias</p>
+            </div>
+            <md-icon class="absolute-card">celebration</md-icon>
+        </div>
+      </div>
 
       <div class="content-box">
-          <h1 class="headline-small">Sesión iniciada:</h1>
-          <p class="headline-medium"><%= user %> - <%= name %></p>
+        <h1 class="headline-small">Sesión iniciada:</h1>
+        <p class="headline-medium"><%= user %> - <%= name %></p>
+      </div>
+      <div class="simple-container justify-right">
+        <md-text-button onclick="toggleDialog('dialog-logout-confirmation')">Cerrar sesión</md-text-button>
       </div>
 
-      <div class="simple-container justify-right">
-        <md-outlined-button onclick="toggleDialog('dialog-logout-confirmation')">Cerrar sesión</md-outlined-button>
-      </div>
+      <md-dialog id="created-success">
+        <div slot="headline">Noticia creada correctamente</div>
+        <md-icon slot="icon" aria-hidden="true">celebration</md-icon>
+        <form id="form-created-success" slot="content" method="dialog">
+          Puedes ver la noticia en el inicio
+        </form>
+        <div slot="actions">
+          <md-filled-button form="form-created-success" value="continue">Aceptar</md-filled-button>
+        </div>
+      </md-dialog>   
 
       
     </section>
   </holder>
 </main>
+
+<script>
+  (function() {
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    const msg = getQueryParam('msg');
+
+    if (msg === 'success') {
+      document.getElementById("created-success").setAttribute('open', '');
+    } else if (msg === 'error') {
+    }
+  })();
+</script>
+
+
 
 
     

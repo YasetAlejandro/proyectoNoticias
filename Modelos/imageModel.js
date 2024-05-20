@@ -28,7 +28,7 @@ exports.uploadFile = (req, res) => {
         } else {
             console.log("Imagen agregada correctamente.");
             // Redirecciona al usuario a la ruta '/home'
-            res.redirect("/home");
+            res.redirect("/home?msg=success");
         }
     });
 };

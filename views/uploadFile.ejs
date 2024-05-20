@@ -1,23 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Image Form</title>
-</head>
-<body>
-    <h1>Upload News</h1>
-    <form action="/images" method="POST" enctype="multipart/form-data">
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
 
-        <label for="content">Content:</label><br>
-        <textarea id="content" name="content" required></textarea><br><br>
+<%- include('partials/__header.ejs') %>
 
-        <label for="image">Select Image:</label><br>
-        <input type="file" id="image" name="image" accept="image/*" required><br><br>
+<main>
+    <holder>
+        <section active style="position:relative; padding-bottom:100px">
+            <div class="content-box light-color direction-row justify-between padding-8">
+                <md-outlined-button href="home"><md-icon slot="icon">arrow_back</md-icon>regresar</md-outlined-button>          
+            </div>
+            <div class="simple-container">
+                <div class="content-box light rounded overflow-hidden">
+                    <div class="simple-container direction-column">
+                        <h1 class="display-large bricolage primary-text">Crear noticia</h1>
+                        <p class="headline-small">Ingresa los datos de la noticia</p>
+                    </div>
+                    <md-icon class="absolute-card">newspaper</md-icon>
+                </div>
+            </div>
 
-        <input type="submit" value="Upload Image">
-    </form>
-</body>
-</html>
+            <div class="content-box flex-wrap gap-16">
+                <h1 class="headline-small">
+                    Crea una noticia
+                </h1>
+                <div class="simple-container grow-1 basis-normal direction-column v-margin">
+                    <form action="/images" method="POST" enctype="multipart/form-data" class="direction-column gap-16">
+                
+                        <md-outlined-text-field 
+                            label="Título"
+                            name="title"
+                            id="title"
+                            required
+                        ></md-outlined-text-field>
+                        <md-outlined-text-field 
+                            label="Contenidod de la nonticia"
+                            name="content"
+                            id="content"
+                            type="textarea"
+                            rows="6"
+                            required
+                        ></md-outlined-text-field>
+                        <label for="image">Selecciona una imagen *</label>
+                        <input type="file" id="image" name="image" accept="image/*" onchange="showImage()" required>
+                        
+                        <div class="simple-container justify-right">
+                            <md-filled-button type="submit" value="Upload Image"><md-icon slot="icon">publish</md-icon>Publicar noticia</md-filled-button>
+                        </div>
+                    </form>
+
+                    <div class="simple-container v-margin">
+                        <img src="" id="image-holder" alt="image" style="width:100%; border-radius:16px; display: none;">
+                    </div>
+                 
+                </div>
+            </div>
+           
+        </section>
+    </holder>
+</main>
+<style>
+    label{
+        display:flex;
+        flex-grow:1;
+        background:var(--md-sys-color-secondary-container);
+        color:var(--md-sys-color-on-sencondary-container);
+        justify-content: center;
+        padding:8px;
+        border-radius:24px;
+        cursor:pointer;
+        transition:background 125ms, color 125ms;
+    }
+    label:hover{
+        background:var(--md-sys-color-primary-container);
+        color:var(--md-sys-color-on-primary-container)
+    }
+    input[type="file"] {
+        display: none;
+    }
+</style>
+<script>
+    function showImage(){
+        const image = document.getElementById('image').files[0];
+        const imageHolder = document.getElementById('image-holder');
+        imageHolder.style.display = 'block';
+        const reader = new FileReader();
+        reader.onload = function(e){
+            imageHolder.src = e.target.result;
+        }
+        reader.readAsDataURL(image);
+        
+
+    }
+</script>
+
+<%- include('partials/__footer.ejs') %>

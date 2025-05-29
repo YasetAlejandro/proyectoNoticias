@@ -40,10 +40,28 @@
                         ></md-outlined-text-field>
                         <label for="image">Selecciona una imagen *</label>
                         <input type="file" id="image" name="image" accept="image/*" onchange="showImage()" required>
+
+
+                        <div class="simple-container direction-row gap-8">
+                            <md-filled-tonal-button type="button" id="btnTitulo" onclick="alternarGrabacion('titulo')">
+                                <md-icon slot="icon">mic</md-icon> Grabar título
+                            </md-filled-tonal-button>
+                            <md-filled-tonal-button type="button" id="btnContenido" onclick="alternarGrabacion('contenido')">
+                                <md-icon slot="icon">mic</md-icon> Grabar contenido
+                            </md-filled-tonal-button>
+                        </div>                        
+
                         
                         <div class="simple-container justify-right">
                             <md-filled-button type="submit" value="Upload Image"><md-icon slot="icon">publish</md-icon>Publicar noticia</md-filled-button>
                         </div>
+
+                        <div id="grabacion-indicador" style="display: none; align-items: center; gap: 8px; margin-top: 8px; color: red;">
+                            <span>🎙️ Grabando...</span>
+                            <span class="dot-flash">●</span>
+                        </div>                        
+
+
                     </form>
 
                     <div class="simple-container v-margin">
@@ -90,5 +108,85 @@
 
     }
 </script>
+
+<script>
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'es-ES';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    let grabandoCampo = null;
+    let reconocimientoActivo = false;
+
+    recognition.onresult = function(event) {
+        const resultado = event.results[event.results.length - 1][0].transcript;
+
+        if (grabandoCampo === 'titulo') {
+            document.getElementById('title').value += ' ' + resultado;
+        } else if (grabandoCampo === 'contenido') {
+            document.getElementById('content').value += ' ' + resultado;
+        }
+    };
+
+    recognition.onstart = function() {
+        reconocimientoActivo = true;
+        document.getElementById('grabacion-indicador').style.display = 'flex';
+
+        // Cambiar botón visual a "Detener grabación"
+        if (grabandoCampo) {
+            const btn = document.getElementById(grabandoCampo === 'titulo' ? 'btnTitulo' : 'btnContenido');
+            btn.innerHTML = `<md-icon slot="icon">stop</md-icon> Detener grabación`;
+        }
+    };
+
+    recognition.onend = function() {
+        reconocimientoActivo = false;
+        document.getElementById('grabacion-indicador').style.display = 'none';
+
+        // Restaurar botones a "Grabar"
+        if (grabandoCampo) {
+            const btn = document.getElementById(grabandoCampo === 'titulo' ? 'btnTitulo' : 'btnContenido');
+            btn.innerHTML = `<md-icon slot="icon">mic</md-icon> Grabar ${grabandoCampo}`;
+        }
+
+        grabandoCampo = null;
+    };
+
+    recognition.onerror = function(event) {
+        console.error("Error en reconocimiento:", event.error);
+        alert("Error de reconocimiento de voz: " + event.error);
+
+        reconocimientoActivo = false;
+
+        // Restaurar todos los botones
+        document.getElementById('btnTitulo').innerHTML = `<md-icon slot="icon">mic</md-icon> Grabar título`;
+        document.getElementById('btnContenido').innerHTML = `<md-icon slot="icon">mic</md-icon> Grabar contenido`;
+        document.getElementById('grabacion-indicador').style.display = 'none';
+
+        grabandoCampo = null;
+    };
+
+    function alternarGrabacion(campo) {
+        const btn = document.getElementById(campo === 'titulo' ? 'btnTitulo' : 'btnContenido');
+
+        if (grabandoCampo === campo && reconocimientoActivo) {
+            recognition.stop(); // onend manejará el cambio visual
+        } else {
+            if (grabandoCampo && reconocimientoActivo) {
+                const otroBtn = document.getElementById(grabandoCampo === 'titulo' ? 'btnTitulo' : 'btnContenido');
+                otroBtn.innerHTML = `<md-icon slot="icon">mic</md-icon> Grabar ${grabandoCampo}`;
+                recognition.stop(); // Se espera onend para reiniciar
+            }
+
+            grabandoCampo = campo;
+            recognition.start().catch(err => {
+                console.error("Error al iniciar reconocimiento:", err);
+                alert("No se pudo iniciar el reconocimiento de voz.");
+                grabandoCampo = null;
+            });
+        }
+    }
+</script>
+
 
 <%- include('partials/__footer.ejs') %>

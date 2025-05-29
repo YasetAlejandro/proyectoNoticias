@@ -84,3 +84,54 @@ md-outlined-icon-button.big:hover, md-filled-tonal-icon-button.big:hover{
   width:64px;
 }
 form{display:flex;}
+
+
+#extra-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff;  /* Color de fondo */
+  color: white;  /* Color del texto */
+  font-size: 14px;  /* Tamaño de la fuente */
+  font-weight: 500;  /* Peso de la fuente */
+  padding: 8px 16px;  /* Espaciado interno */
+  border: none;
+  border-radius: 8px;  /* Bordes redondeados */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 8px;  /* Espacio entre icono y texto */
+}
+
+#extra-action-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;  /* Hace que el ícono herede el color del texto */
+}
+
+#extra-action-btn:hover {
+  background-color: #0056b3;  /* Color de fondo cuando pasa el ratón */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Sombra para dar un efecto de elevación */
+}
+
+#extra-action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(38, 143, 255, 0.5);  /* Sombra cuando el botón tiene el foco */
+}
+
+#extra-action-btn span {
+  margin-left: 8px;
+}
+
+.dot-flash {
+  font-size: 20px;
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0%, 100% {
+      opacity: 1;
+  }
+  50% {
+      opacity: 0;
+  }
+}

@@ -5,7 +5,6 @@ cardItemTemplate.innerHTML = `
         display:flex;
         flex-grow:1;
         flex-basis:600px;
-
         height:auto;
         user-select:none;
     }
@@ -14,10 +13,8 @@ cardItemTemplate.innerHTML = `
         display:flex;
         flex-grow:1;
         flex-wrap:wrap;
-
         background:var(--surfaceMediumSolid);
         border-radius:28px;
-        
         inset:0;
         overflow:auto;
         transition:background 125ms;
@@ -26,7 +23,6 @@ cardItemTemplate.innerHTML = `
     .card:not(.open):hover{
         background:var(--normal);
         box-shadow: 0px 0px 0px 1px rgba(var(--normalInverted), 0.08); 
-        /* box-shadow: 0px 10px 32px -16px rgba(0, 0, 0, 0.16);*/
     }
     .card:not(.open):hover img{filter: brightness(1.03);}
 
@@ -49,7 +45,6 @@ cardItemTemplate.innerHTML = `
     ::-webkit-scrollbar {
         display: none;
     }
-
 
     img{
         width:100%;
@@ -128,8 +123,6 @@ cardItemTemplate.innerHTML = `
         text-wrap:balance;
     }
 
-    
-
     .transparent-cards{
         animation: transparentIn 300ms;
     }
@@ -165,7 +158,7 @@ cardItemTemplate.innerHTML = `
         }
     }
 
-    /* Estilo de bonton de cerrar */
+    /* Estilo de botón de cerrar */
     .card.open close-button{display:flex; animation: buttonIn 500ms cubic-bezier(.56,.27,0,1)}
     @keyframes buttonIn {from {transform: scale(0);} to {transform: scale(1);}}
     close-button{
@@ -182,7 +175,6 @@ cardItemTemplate.innerHTML = `
         cursor:pointer;  
         opacity:0.95;
         z-index:2;
-        
     }
     close-button svg{fill:var(--normal); filter: drop-shadow(0px 0px 4px rgba(var(--normalInverted), 0.24));transition:transform .3s cubic-bezier(0,0,0.5,1)}
     close-button:hover svg{transform: scale(1.1);}
@@ -191,13 +183,11 @@ cardItemTemplate.innerHTML = `
         close-button{right:unset; left:16px;}
     }
 
-
-    /* Estilos de fadeOut animation para cualqueir element */
+    /* Estilos de animaciones */
     .element-visible{display:flex;}
     [closing]{animation: fadeOut 300ms;}
     @keyframes fadeOut {from{opacity:1}to{opacity:0;}}
     @keyframes fadeIn {from{opacity:0}to{opacity:1;}}
-
 
     /* Estilos de botones */
     button{
@@ -209,7 +199,6 @@ cardItemTemplate.innerHTML = `
         line-height: 16px;
         padding:16px 24px;
         width:100%;
-        
         border-radius:18px;
         border:none;
         cursor:pointer;
@@ -230,8 +219,7 @@ cardItemTemplate.innerHTML = `
     button.icon:hover svg{fill:var(--normal);}    
     button.icon svg{fill:rgba(var(--normalInverted), .8); transition:fill 125ms;}
 
-
-    /* Estilos de contenedor de creditos y fecha */
+    /* Estilos de contenedor de créditos y fecha */
     .content-box{
         display:flex;
         flex-grow:1;
@@ -246,7 +234,6 @@ cardItemTemplate.innerHTML = `
         font-weight:500;
         margin:0;
         color:rgba(var(--normalInverted), 0.88);
-
     }
     .content-box .divisor{
         display:flex;
@@ -268,28 +255,61 @@ cardItemTemplate.innerHTML = `
     .color-primary{
         background:var(--primary) !important;
         color:var(--onPrimary) !important;
-
     }
 
     span.interaction{
         position:absolute;
         width:100%;
         height:100%;
-        
+    }
+
+    /* Nuevos estilos para TTS */
+    .tts-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--surfaceLight);
+        color: rgba(var(--normalInverted), 0.8);
+        padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 125ms;
+        width: 100%;
+    }
+
+    .tts-button:hover {
+        background: var(--primary);
+        color: var(--onPrimary);
+    }
+
+    .tts-icon {
+        fill: currentColor;
+        width: 18px;
+        height: 18px;
+        transition: fill 125ms;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+        margin-top: 16px;
+    }
+
+    .tts-button.playing {
+        background: var(--primary);
+        color: var(--onPrimary);
     }
 </style>
 
-<div class="transparent-cards" style="display:none; z-index:10; width:100%; height:100vh; inset:0; position:fixed; background:rgba(var(--normalInverted), 0.1)">
-
-</div>
-
+<div class="transparent-cards" style="display:none; z-index:10; width:100%; height:100vh; inset:0; position:fixed; background:rgba(var(--normalInverted), 0.1)"></div>
 
 <div class="card">
     <div class="content_divisor" id="img-holder">
         <close-button>
             <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="m480-432 118 117q9 10 23 10.5t25-11.007q11-10.508 11-23.747T646-364L528-480l118-118q9-9 10-23t-10-25q-11.411-11-24.5-11T598-646L480-528 363-646q-10-9-23.5-10T316-646q-12 11.411-12 24.5t12 23.5l116 118-117 117q-10 10-10.5 23.5t11.007 23.5q10.508 12 23.747 12T364-316l116-116Zm.138 373Q393-59 316-91.5t-134.5-90Q124-239 91.5-315.862t-32.5-164Q59-567 91.5-644t89.843-134.553q57.343-57.552 134.278-90.5Q392.557-902 479.779-902q87.221 0 164.339 32.87 77.119 32.87 134.596 90.29 57.478 57.42 90.382 134.46T902-480q0 87.276-32.947 164.26-32.948 76.983-90.5 134.362Q721-124 644.138-91.5t-164 32.5Z"/></svg>
-            
-
         </close-button>
         <img src="https://th.bing.com/th/id/OIG4.XV6v0uvvkYCVu2vehKOU?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="Lights" style="width:100%">
     </div>
@@ -309,174 +329,231 @@ cardItemTemplate.innerHTML = `
                     <dataline id="data-credits" class="color-primary">0</dataline>
                 </div>
             </div>
-                <dataline id="data-address">-</dataline>
-            <card-shortdescription>
-            </card-shortdescription>
-            
-            
+            <dataline id="data-address">-</dataline>
+            <card-shortdescription></card-shortdescription>
         </div>
 
         <span class="hidden-content">
             <hidden-content>
-                <card-description>
-                    ...
-                </card-description>
+                <card-description>...</card-description>
 
-               
-
-                <div id="response-holder-sub-button" class="simple_container" style="width:100%; align-items:flex-start; margin:16px 0;">
+                <div class="button-container">
+                    <button class="tts-button" id="tts-button">
+                        <svg class="tts-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                            <path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q47 22 73.5 66t26.5 96q0 51-26.5 94.5T540-312Z"/>
+                        </svg>
+                        Escuchar noticia
+                    </button>
                     
+                    <button class="tts-button" id="subscribe-button">
+                        <svg class="tts-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                        </svg>
+                        Inscribirse
+                    </button>
                 </div>
-
-                
-
             </hidden-content>
         </span>
-
-        
-
-        
-        
-       
-        
     </div>
 </div>
 `;
 
-
 class cardItem extends HTMLElement {
-    
-  constructor() {
-    super();
-    const shadow = this.attachShadow({mode: 'open'});
-    shadow.append(cardItemTemplate.content.cloneNode(true)); 
-  }
-  
-
-  connectedCallback() {
-
-    const shadowRoot = this.shadowRoot;
-    const cardElement = this.shadowRoot.querySelector('.card');  
-    const hostElement = this.shadowRoot.host;  
-    const transparentCards = this.shadowRoot.querySelector(".transparent-cards");
-
-    const closeButton = this.shadowRoot.querySelector("close-button");
-    const hiddenContent = this.shadowRoot.querySelector("hidden-content");
-
-    function removeVisibility(element){
-        if (element.hasAttribute("closing") && !(cardElement.classList.contains("open"))) {
-            element.classList.remove("element-visible");
-            element.removeAttribute("closing");
-        }
+    constructor() {
+        super();
+        const shadow = this.attachShadow({mode: 'open'});
+        shadow.append(cardItemTemplate.content.cloneNode(true));
+        this.audio = null;
+        this.isPlaying = false;
     }
-    
-    // Create sub button
-    const subButton = document.createElement('button');
-    subButton.textContent = 'Inscribirse';
-    subButton.onclick = function() {toggleCard(); changeWindow('#window-inscription')};
-    var buttonHolder = this.shadowRoot.getElementById("response-holder-sub-button");
-    buttonHolder.appendChild(subButton);
 
-    const interactionClose = document.createElement('span');
-    interactionClose.classList.add("interaction");
-    closeButton.appendChild(interactionClose);
-    interactionClose.onclick = function() {toggleCard()};
+    connectedCallback() {
+        const shadowRoot = this.shadowRoot;
+        const cardElement = shadowRoot.querySelector('.card');  
+        const hostElement = shadowRoot.host;  
+        const transparentCards = shadowRoot.querySelector(".transparent-cards");
+        const closeButton = shadowRoot.querySelector("close-button");
+        const hiddenContent = shadowRoot.querySelector("hidden-content");
 
-
-    function toggleCard(){
-        
-
-        resizeHeight(hostElement)
-        function resizeHeight(hostElement){
-            var hostHeight = hostElement.offsetHeight;
-            hostElement.style.minHeight=hostHeight+"px";
-            // console.log("ajustando tamaño");
-        }
-
-        function resetSize(element){
-            element.style.width = "auto";
+        function removeVisibility(element){
+            if (element.hasAttribute("closing") && !(cardElement.classList.contains("open"))) {
+                element.classList.remove("element-visible");
+                element.removeAttribute("closing");
+            }
         }
         
+        // Configuración del botón de TTS
+        const ttsButton = shadowRoot.getElementById('tts-button');
+        ttsButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleTTS();
+        });
 
+        // Configuración del botón de inscripción
+        const subButton = shadowRoot.getElementById('subscribe-button');
+        subButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleCard(); 
+            if(typeof changeWindow === 'function') {
+                changeWindow('#window-inscription');
+            }
+        });
 
-        let state = Flip.getState(cardElement);
-        if (cardElement.classList.contains("open")) {
-            // Close card
-            cardElement.classList.remove("open");
-            shadowRoot.appendChild(cardElement);
-            transparentCards.style.display = "none";
-            cardElement.addEventListener('mouseup', () => { toggleCard(); }, {once: true});
+        const interactionClose = document.createElement('span');
+        interactionClose.classList.add("interaction");
+        closeButton.appendChild(interactionClose);
+        interactionClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleCard();
+        });
 
-            // closing animation
-            closeButton.setAttribute("closing", "");
-            closeButton.addEventListener("animationend", () =>{ removeVisibility(closeButton);}, {once: true})
-            hiddenContent.setAttribute("closing", "");
-            hiddenContent.addEventListener("animationend", () =>{ removeVisibility(hiddenContent); }, {once: true})
-            
-            
+        const toggleCard = () => {
+            const resizeHeight = (hostElement) => {
+                const hostHeight = hostElement.offsetHeight;
+                hostElement.style.minHeight = hostHeight + "px";
+            };
 
-        }else{
-            // Open card
-            transparentCards.style.display = "flex";
-            cardElement.classList.add("open");
-            transparentCards.appendChild(cardElement);
-            // closeButton.addEventListener('click', () => { toggleCard(); }, {once: true});
+            const state = Flip.getState(cardElement);
+            if (cardElement.classList.contains("open")) {
+                // Cerrar tarjeta
+                cardElement.classList.remove("open");
+                shadowRoot.appendChild(cardElement);
+                transparentCards.style.display = "none";
+                cardElement.addEventListener('mouseup', () => { toggleCard(); }, {once: true});
 
-            // closing animations
-            // if (cardElement.classList.contains("open")) {
+                // Animación de cierre
+                closeButton.setAttribute("closing", "");
+                closeButton.addEventListener("animationend", () => { removeVisibility(closeButton); }, {once: true});
+                hiddenContent.setAttribute("closing", "");
+                hiddenContent.addEventListener("animationend", () => { removeVisibility(hiddenContent); }, {once: true});
+                
+                // Detener audio al cerrar
+                if(this.audio) {
+                    this.audio.pause();
+                    this.audio = null;
+                    this.isPlaying = false;
+                    ttsButton.classList.remove('playing');
+                    ttsButton.innerHTML = `
+                        <svg class="tts-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                            <path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q47 22 73.5 66t26.5 96q0 51-26.5 94.5T540-312Z"/>
+                        </svg>
+                        Escuchar noticia`;
+                }
+            } else {
+                // Abrir tarjeta
+                transparentCards.style.display = "flex";
+                cardElement.classList.add("open");
+                transparentCards.appendChild(cardElement);
                 closeButton.classList.add("element-visible");
                 hiddenContent.classList.add("element-visible");
+            }
 
-                // var hiddenContentWidth = hiddenContent.offsetWidth;
-                // hiddenContent.style.width = hiddenContentWidth + "px";
-            // }
+            Flip.from(state, {
+                duration: 0.5,
+                scale: false,
+                ease: CustomEase.create("custom", "M0,0 C0.308,0.19 0.107,0.633 0.288,0.866 0.382,0.987 0.656,1 1,1 "),
+                absolute: true,
+                zIndex: 1,
+            });
+        };
 
+        shadowRoot.querySelector('.card').addEventListener('click', () => { toggleCard() }, {once: true});
+
+        // Asignación de valores desde atributos
+        if(this.hasAttribute('data-img')) {
+            shadowRoot.querySelector('img').setAttribute("src", this.getAttribute('data-img'));
         }
-        Flip.from(state, {
-            duration: 0.5,
-            scale: false,
-            ease: CustomEase.create("custom", "M0,0 C0.308,0.19 0.107,0.633 0.288,0.866 0.382,0.987 0.656,1 1,1 "),
-            // ease: CustomEase.create("emphasized", "0.2, 0, 0, 1"),
-            // ease: CustomEase.create("classic", "0.1, 0.8, 0, 1"),
-            // ease: "expo.out",
-            absolute: true,
-            zIndex: 1,
+        if(this.hasAttribute('data-title')) {
+            shadowRoot.querySelector('card-title').textContent = this.getAttribute('data-title');
+        }
+        if(this.hasAttribute('data-shortdescription')) {
+            shadowRoot.querySelector('card-shortdescription').textContent = this.getAttribute('data-shortdescription');
+        }    
+        if(this.hasAttribute('data-description')) {
+            shadowRoot.querySelector('card-description').textContent = this.getAttribute('data-description');
+        }
+        if(this.hasAttribute('data-credits')) {
+            shadowRoot.getElementById("data-credits").textContent = this.getAttribute('data-credits');
+        }
+        if(this.hasAttribute('data-date')) {
+            shadowRoot.getElementById("data-date").textContent = this.getAttribute('data-date');
+        }
+        if(this.hasAttribute('data-time')) {
+            shadowRoot.getElementById("data-time").textContent = this.getAttribute('data-time');
+        }
+        if(this.hasAttribute('data-address')) {
+            shadowRoot.getElementById("data-address").textContent = this.getAttribute('data-address');
+        }
+        if(this.hasAttribute('data-id')) {
+            this.newsId = this.getAttribute('data-id');
+        } else {
+            this.newsId = Math.random().toString(36).substring(2);
+        }
+    }
+
+    toggleTTS() {
+        const ttsButton = this.shadowRoot.getElementById('tts-button');
+        
+        if (this.audio) {
+            // Si hay audio, pausarlo o reanudarlo
+            if (this.isPlaying) {
+                this.audio.pause();
+                this.isPlaying = false;
+                ttsButton.innerHTML = `
+                    <svg class="tts-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q47 22 73.5 66t26.5 96q0 51-26.5 94.5T540-312Z"/>
+                    </svg>
+                    Escuchar noticia`;
+                ttsButton.classList.remove('playing');
+            } else {
+                this.audio.play();
+                this.isPlaying = true;
+                ttsButton.innerHTML = `
+                    <svg class="tts-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q134 0 227 93t93 227q0 134-93 227t-227 93Zm0-320Zm-60 144h120v-328H420v328Z"/>
+                    </svg>
+                    Pausar`;
+                ttsButton.classList.add('playing');
+            }
+            return;
+        }
+
+        // Si no hay audio, crearlo
+        const newsText = this.getAttribute('data-description') || '';
+        const newsTitle = this.getAttribute('data-title') || '';
+        
+        this.audio = new Audio(`/audio/${this.newsId}?text=${encodeURIComponent(newsTitle + '. ' + newsText)}`);
+        
+        ttsButton.innerHTML = `
+            <svg class="tts-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                <path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q134 0 227 93t93 227q0 134-93 227t-227 93Zm0-320Zm-60 144h120v-328H420v328Z"/>
+            </svg>
+            Pausar`;
+        ttsButton.classList.add('playing');
+        this.isPlaying = true;
+
+        this.audio.play().catch(e => {
+            console.error("Error al reproducir audio:", e);
+            ttsButton.innerHTML = `
+                <svg class="tts-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                    <path d="M480-280q83 0 141.5-58.5T680-480q0-83-58.5-141.5T480-680q-83 0-141.5 58.5T280-480q0 83 58.5 141.5T480-280Zm0-80q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM240-80l-56-56 200-200H80v-80h304L184-616l56-56 240 240-240 240Zm240-320Z"/>
+                </svg>
+                Error al reproducir`;
+            ttsButton.classList.remove('playing');
+            this.isPlaying = false;
         });
-    }
 
-    this.shadowRoot.querySelector('.card').addEventListener('click', () => { toggleCard(cardElement) }, {once: true});
-
-    // Values asignation from attributes
-    if(this.hasAttribute('data-img')) {
-        this.shadowRoot.querySelector('img').setAttribute("src", this.getAttribute('data-img'));
+        this.audio.onended = () => {
+            ttsButton.innerHTML = `
+                <svg class="tts-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                    <path d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q47 22 73.5 66t26.5 96q0 51-26.5 94.5T540-312Z"/>
+                </svg>
+                Escuchar noticia`;
+            ttsButton.classList.remove('playing');
+            this.isPlaying = false;
+            this.audio = null;
+        };
     }
-    if(this.hasAttribute('data-title')) {
-        this.shadowRoot.querySelector('card-title').textContent = this.getAttribute('data-title');
-    }
-    if(this.hasAttribute('data-shortdescription')) {
-        this.shadowRoot.querySelector('card-shortdescription').textContent = this.getAttribute('data-shortdescription');
-    }    
-    if(this.hasAttribute('data-description')) {
-        this.shadowRoot.querySelector('card-description').textContent = this.getAttribute('data-description');
-    }
-    if(this.hasAttribute('data-credits')) {
-        this.shadowRoot.getElementById("data-credits").textContent = this.getAttribute('data-credits');
-    }
-    if(this.hasAttribute('data-date')) {
-        this.shadowRoot.getElementById("data-date").textContent = this.getAttribute('data-date');
-    }
-    if(this.hasAttribute('data-time')) {
-        this.shadowRoot.getElementById("data-time").textContent = this.getAttribute('data-time');
-    }
-    if(this.hasAttribute('data-address')) {
-        this.shadowRoot.getElementById("data-address").textContent = this.getAttribute('data-address');
-    }
-  }
 }
-
-
-
-
-
 
 customElements.define('card-item', cardItem);

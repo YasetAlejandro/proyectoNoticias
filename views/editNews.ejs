@@ -86,6 +86,16 @@
                             required
                         ></md-outlined-text-field>
                         
+                        <md-filled-tonal-button type="button" id="btn-titulo" onclick="alternarGrabacion('titulo')">
+                            <md-icon id="iconTitulo" slot="icon">mic</md-icon>
+                            <span id="textoTitulo">Grabar título</span>
+                        </md-filled-tonal-button>
+                        <md-filled-tonal-button type="button" id="btn-contenido" onclick="alternarGrabacion('contenido')">
+                            <md-icon id="iconContenido" slot="icon">mic</md-icon>
+                            <span id="textoContenido">Grabar contenido</span>
+                        </md-filled-tonal-button>                                         
+
+
                         <div class="simple-container justify-right">
                             <md-filled-button type="submit" value="Upload Image"><md-icon slot="icon">save</md-icon>Guardar cambios</md-filled-button>
                         </div>
@@ -120,6 +130,18 @@
     input[type="file"] {
         display: none;
     }
+
+    .pulsando {
+        animation: pulse 1s infinite;
+        color: var(--md-sys-color-error);
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.6; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
 </style>
 <script>
     function showImage(){
@@ -136,5 +158,57 @@
     }
 </script>
 
-<%- include('partials/__footer.ejs') %>
+<script>
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'es-ES';
+    recognition.continuous = true;
+    recognition.interimResults = false;
 
+    let grabandoCampo = null;
+
+    recognition.onresult = function(event) {
+        const resultado = event.results[event.results.length - 1][0].transcript;
+        if (grabandoCampo === 'titulo') {
+            document.getElementById('title').value += ' ' + resultado;
+        } else if (grabandoCampo === 'contenido') {
+            document.getElementById('content').value += ' ' + resultado;
+        }
+    };
+
+    function alternarGrabacion(campo) {
+        const boton = document.getElementById(`btn-${campo}`);
+        const icono = boton.querySelector('md-icon');
+        const texto = boton.querySelector('span');
+
+        if (grabandoCampo === campo) {
+            // Detener grabación
+            recognition.stop();
+            grabandoCampo = null;
+            texto.textContent = `Grabar ${campo}`;
+            icono.textContent = 'mic';
+            icono.classList.remove('pulsando');
+        } else {
+            // Si hay otro campo grabando, lo detenemos
+            if (grabandoCampo) {
+                const botonAnterior = document.getElementById(`btn-${grabandoCampo}`);
+                const iconoAnterior = botonAnterior.querySelector('md-icon');
+                const textoAnterior = botonAnterior.querySelector('span');
+                textoAnterior.textContent = `Grabar ${grabandoCampo}`;
+                iconoAnterior.textContent = 'mic';
+                iconoAnterior.classList.remove('pulsando');
+                recognition.stop();
+            }
+
+            grabandoCampo = campo;
+            recognition.start();
+            texto.textContent = 'Detener grabación';
+            icono.textContent = 'record_voice_over';
+            icono.classList.add('pulsando');
+        }
+    }
+</script>
+
+
+
+
+<%- include('partials/__footer.ejs') %>

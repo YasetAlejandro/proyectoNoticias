@@ -1,6 +1,26 @@
 const cardItemTemplate = document.createElement('template');
 cardItemTemplate.innerHTML = `
 <style>
+    .leer-button {
+      all: unset;
+      display: inline-block;
+      padding: 8px 12px;
+      margin-top: 8px;
+      background-color: #6200ee;
+      color: white;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .leer-button:hover {
+      background-color: #3700b3;
+    }
+    
+
+
     :host{
         display:flex;
         flex-grow:1;
@@ -278,6 +298,8 @@ cardItemTemplate.innerHTML = `
 
 </style>
 
+
+
 <div class="transparent-cards" style="display:none; z-index:10; width:100%; height:100vh; inset:0; position:fixed; background:rgba(0,0,0, .2);">
 
 </div>
@@ -321,159 +343,145 @@ cardItemTemplate.innerHTML = `
                     conveniente, pero este no es el caso.
                 </card-description>
 
-                
+
+                <card-actions>
+                    <button class= "leer-button">
+                        <span> Leer Noticia </span>
+                    </button> 
+                </card-actions>
 
                 
-
             </hidden-content>
         </span>
 
-        
-
-        
-        
        
         
     </div>
+
 </div>
+
+
 `;
 
 
 class cardItem extends HTMLElement {
     
-  constructor() {
-    super();
-    const shadow = this.attachShadow({mode: 'open'});
-    shadow.append(cardItemTemplate.content.cloneNode(true)); 
+    constructor() {
+      super();
+      const shadow = this.attachShadow({mode: 'open'});
+      shadow.append(cardItemTemplate.content.cloneNode(true)); 
+    }
+      
+  
+    connectedCallback() {
+      const shadowRoot = this.shadowRoot;
+      const cardElement = this.shadowRoot.querySelector('.card');  
+      const hostElement = this.shadowRoot.host;  
+      const transparentCards = this.shadowRoot.querySelector(".transparent-cards");
+  
+      const closeButton = this.shadowRoot.querySelector("close-button");
+      const hiddenContent = this.shadowRoot.querySelector("hidden-content");
+      const leerButton = this.shadowRoot.querySelector('.leer-button'); // El botón "Leer noticia"
+      const cardDescription = this.shadowRoot.querySelector('card-description'); // Contenido a leer
+  
+      // Función para leer el contenido de la noticia usando la Web Speech API
+      function leerContenido(texto) {
+        const speech = new SpeechSynthesisUtterance();
+        speech.lang = 'es-ES'; // Configurar idioma (español)
+        speech.text = texto; // El texto que se leerá
+        speech.volume = 1; // Volumen máximo
+        speech.rate = 1; // Velocidad normal
+        speech.pitch = 1; // Tono normal
+        window.speechSynthesis.speak(speech); // Inicia la lectura
+      }
+  
+      // Evento para leer la noticia al hacer clic en el botón
+      leerButton.addEventListener('click', () => {
+        const contenido = cardDescription.textContent; // Obtener el texto de la noticia
+        leerContenido(contenido); // Leer el contenido
+      });
+  
+      function removeVisibility(element){
+          if (element.hasAttribute("closing") && !(cardElement.classList.contains("open"))) {
+              element.classList.remove("element-visible");
+              element.removeAttribute("closing");
+          }
+      }
+  
+      function toggleCard(){
+          resizeHeight(hostElement)
+          function resizeHeight(hostElement){
+              var hostHeight = hostElement.offsetHeight;
+              hostElement.style.minHeight=hostHeight+"px";
+          }
+  
+          let state = Flip.getState(cardElement);
+          if (cardElement.classList.contains("open")) {
+              // Close card
+              cardElement.classList.remove("open");
+              shadowRoot.appendChild(cardElement);
+              transparentCards.style.display = "none";
+              cardElement.addEventListener('mouseup', () => { toggleCard(); }, {once: true});
+  
+              // closing animations
+              closeButton.setAttribute("closing", "");
+              closeButton.addEventListener("animationend", () =>{ removeVisibility(closeButton) }, {once: true})
+              hiddenContent.setAttribute("closing", "");
+              hiddenContent.addEventListener("animationend", () =>{ removeVisibility(hiddenContent); }, {once: true})
+          } else {
+              // Open card
+              cardElement.classList.remove("slim-card");
+              transparentCards.style.display = "flex";
+              cardElement.classList.add("open");
+              transparentCards.appendChild(cardElement);
+              closeButton.addEventListener('click', () => { toggleCard(); }, {once: true});
+  
+              // closing animations
+              closeButton.classList.add("element-visible");
+              hiddenContent.classList.add("element-visible");
+          }
+  
+          Flip.from(state, {
+              duration: 0.5,
+              scale: false,
+              ease: CustomEase.create("custom", "M0,0 C0.308,0.19 0.107,0.633 0.288,0.866 0.382,0.987 0.656,1 1,1 "),
+              absolute: true,
+              zIndex: 1,
+          });
+      }
+  
+      function formatDate(fechaStr) {
+          const fecha = new Date(fechaStr);
+          const dia = fecha.getDate();
+          const mes = fecha.toLocaleString('es-ES', { month: 'long' });
+          const año = fecha.getFullYear();
+          return `${dia} ${mes.charAt(0).toUpperCase() + mes.slice(1)}, ${año}`;
+      }
+  
+      // Asignación de valores desde los atributos
+      if(this.hasAttribute('data-img')) {
+          this.shadowRoot.querySelector('img').setAttribute("src", this.getAttribute('data-img'));
+      }
+      if(this.hasAttribute('data-title')) {
+          this.shadowRoot.querySelector('card-title').textContent = this.getAttribute('data-title');
+      }
+      if(this.hasAttribute('data-shortdescription')) {
+          this.shadowRoot.querySelector('card-shortdescription').textContent = this.getAttribute('data-shortdescription');
+      }    
+      if(this.hasAttribute('data-description')) {
+          this.shadowRoot.querySelector('card-description').textContent = this.getAttribute('data-description');
+      }
+      if(this.hasAttribute('data-date')) {
+          this.shadowRoot.getElementById("data-date").textContent = formatDate(this.getAttribute('data-date'));
+      }
+      if(this.hasAttribute('data-author')) {
+          this.shadowRoot.getElementById("data-author").textContent = (this.getAttribute('data-author'));
+      }
+  
+      // Agregar el evento para abrir/cerrar la tarjeta
+      this.shadowRoot.querySelector('.card').addEventListener('click', () => { toggleCard(cardElement) }, {once: true});
+    }
   }
   
-
-  connectedCallback() {
-
-    const shadowRoot = this.shadowRoot;
-    const cardElement = this.shadowRoot.querySelector('.card');  
-    const hostElement = this.shadowRoot.host;  
-    const transparentCards = this.shadowRoot.querySelector(".transparent-cards");
-
-    const closeButton = this.shadowRoot.querySelector("close-button");
-    const hiddenContent = this.shadowRoot.querySelector("hidden-content");
-
-    function removeVisibility(element){
-        if (element.hasAttribute("closing") && !(cardElement.classList.contains("open"))) {
-            element.classList.remove("element-visible");
-            element.removeAttribute("closing");
-        }
-    }
-
-
-    function toggleCard(){
-        
-
-        resizeHeight(hostElement)
-        function resizeHeight(hostElement){
-            var hostHeight = hostElement.offsetHeight;
-            hostElement.style.minHeight=hostHeight+"px";
-            // console.log("ajustando tamaño");
-        }
-
-        function resetSize(element){
-            element.style.width = "auto";
-        }
-        
-
-
-        let state = Flip.getState(cardElement);
-        if (cardElement.classList.contains("open")) {
-            // Close card
-            cardElement.classList.remove("open");
-            shadowRoot.appendChild(cardElement);
-            transparentCards.style.display = "none";
-            cardElement.addEventListener('mouseup', () => { toggleCard(); }, {once: true});
-
-            // closing animations
-            closeButton.setAttribute("closing", "");
-            closeButton.addEventListener("animationend", () =>{ removeVisibility(closeButton) }, {once: true})
-            hiddenContent.setAttribute("closing", "");
-            hiddenContent.addEventListener("animationend", () =>{ removeVisibility(hiddenContent); }, {once: true})
-            
-
-        }else{
-            // Open card
-            cardElement.classList.remove("slim-card");
-            
-            console.log(cardElement.offsetWidth)
-            var cardWidth = cardElement.offsetWidth;
-            if(cardWidth <= 799){
-                cardElement.classList.add("slim-card")
-            }
-
-            transparentCards.style.display = "flex";
-            cardElement.classList.add("open");
-            transparentCards.appendChild(cardElement);
-            closeButton.addEventListener('click', () => { toggleCard(); }, {once: true});
-
-            // closing animations
-            // if (cardElement.classList.contains("open")) {
-                closeButton.classList.add("element-visible");
-                hiddenContent.classList.add("element-visible");
-
-                // var hiddenContentWidth = hiddenContent.offsetWidth;
-                // hiddenContent.style.width = hiddenContentWidth + "px";
-            // }
-
-        }
-        Flip.from(state, {
-            duration: 0.5,
-            scale: false,
-            ease: CustomEase.create("custom", "M0,0 C0.308,0.19 0.107,0.633 0.288,0.866 0.382,0.987 0.656,1 1,1 "),
-            // ease: CustomEase.create("emphasized", "0.2, 0, 0, 1"),
-            // ease: CustomEase.create("classic", "0.1, 0.8, 0, 1"),
-            // ease: "expo.out",
-            absolute: true,
-            zIndex: 1,
-        });
-    }
-    function formatDate(fechaStr) {
-        // Crear un objeto Date a partir de la cadena de fecha proporcionada
-        const fecha = new Date(fechaStr);
-        
-        // Obtener los componentes de la fecha
-        const dia = fecha.getDate();
-        const mes = fecha.toLocaleString('es-ES', { month: 'long' });
-        const año = fecha.getFullYear();
-        
-        // Formatear la fecha en el formato deseado
-        return `${dia} ${mes.charAt(0).toUpperCase() + mes.slice(1)}, ${año}`;
-    }
-
-    this.shadowRoot.querySelector('.card').addEventListener('click', () => { toggleCard(cardElement) }, {once: true});
-
-    // Values asignation from attributes
-    if(this.hasAttribute('data-img')) {
-        this.shadowRoot.querySelector('img').setAttribute("src", this.getAttribute('data-img'));
-    }
-    if(this.hasAttribute('data-title')) {
-        this.shadowRoot.querySelector('card-title').textContent = this.getAttribute('data-title');
-    }
-    if(this.hasAttribute('data-shortdescription')) {
-        this.shadowRoot.querySelector('card-shortdescription').textContent = this.getAttribute('data-shortdescription');
-    }    
-    if(this.hasAttribute('data-description')) {
-        this.shadowRoot.querySelector('card-description').textContent = this.getAttribute('data-description');
-    }
-    if(this.hasAttribute('data-date')) {
-        this.shadowRoot.getElementById("data-date").textContent = formatDate(this.getAttribute('data-date'));
-    }
-    if(this.hasAttribute('data-author')) {
-        this.shadowRoot.getElementById("data-author").textContent = (this.getAttribute('data-author'));
-    }
-
-  }
-}
-
-
-
-
-
-
-customElements.define('card-item', cardItem);
+  customElements.define('card-item', cardItem);
+  
